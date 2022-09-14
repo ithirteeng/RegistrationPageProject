@@ -5,6 +5,6 @@
     <size
         android:width="10dp"
         android:height="10dp" />
-    <solid android:color="@color/registration_platform_background_color" />
+    <solid android:color="@color/cft_red_color" />
 
 </shape>

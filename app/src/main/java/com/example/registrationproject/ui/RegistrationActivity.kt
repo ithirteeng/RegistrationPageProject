@@ -74,7 +74,6 @@ class RegistrationActivity : AppCompatActivity() {
         secondPassword = binding.confirmationEditText.text.toString()
     }
 
-
     private fun calendarButtonTouchListener() {
         binding.calendarButton.setOnClickListener {
             pickDate()
@@ -102,6 +101,8 @@ class RegistrationActivity : AppCompatActivity() {
             calendar.get(Calendar.DAY_OF_MONTH)
         ).show()
     }
+
+
 
     private fun validateData() {
         validateName()
@@ -175,7 +176,13 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private fun validateConfirmation() {
-        if (checkIsValidate(passwordValidator.checkEqualityPasswords(password!!, secondPassword!!))) {
+        if (checkIsValidate(
+                passwordValidator.checkEqualityPasswords(
+                    password!!,
+                    secondPassword!!
+                )
+            )
+        ) {
             showValidatingError(
                 binding.confirmationEditText,
                 binding.confirmationErrorTextView,
@@ -192,6 +199,7 @@ class RegistrationActivity : AppCompatActivity() {
             )
         }
     }
+
 
     private fun returnTextFieldsToNormalView(textView: TextView, editText: EditText) {
         textView.visibility = View.INVISIBLE

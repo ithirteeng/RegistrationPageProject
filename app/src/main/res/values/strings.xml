@@ -5,8 +5,7 @@
     <string name="surname_text">Your surname</string>
     <string name="date_text">Your birthday date</string>
     <string name="password_text">Your password</string>
-    
-    <string name="password_confirmation_text">Confirm your password</string>
+    <string name="password_confirmation_text">Confirm password</string>
     <string name="registration_button_text">registration</string>
     
     <string name="first_name_error">Имя начинается с заглавной буквы!</string>

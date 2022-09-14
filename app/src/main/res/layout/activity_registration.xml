@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/registration_activity_background_color"
-    android:outlineAmbientShadowColor="@color/edit_text_text_color"
+    android:background="@color/cft_white_color"
+    android:outlineAmbientShadowColor="@color/cft_black_color"
     tools:context=".ui.RegistrationActivity">
 
     <ImageView
@@ -150,22 +150,10 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.97" />
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/edit_texts_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="name_edit_text,surname_edit_text,password_edit_text,confirmation_edit_text,date_edit_text" />
-
     <ImageButton
         android:id="@+id/calendar_button"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_margin="5dp"
-        android:background="@drawable/calendar_button_background"
+        style="@style/helper_button_style"
         android:contentDescription="@string/content_description"
-        android:padding="5dp"
-        android:scaleType="center"
-        android:translationZ="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/date_edit_text"
         app:layout_constraintEnd_toEndOf="@+id/date_edit_text"
         app:layout_constraintTop_toTopOf="@+id/date_edit_text"
@@ -225,5 +213,11 @@
         app:layout_constraintStart_toStartOf="@+id/confirmation_edit_text"
         app:layout_constraintTop_toBottomOf="@+id/confirmation_edit_text"
         tools:ignore="TextContrastCheck" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/edit_texts_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="name_edit_text,surname_edit_text,password_edit_text,confirmation_edit_text,date_edit_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

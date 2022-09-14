@@ -8,9 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <!--  my colors  -->
-    <color name="registration_activity_background_color">#fffffe</color>
-    <color name="registration_platform_background_color">#d82335</color>
-    <color name="edit_text_text_color">#232323</color>
+    <color name="cft_white_color">#fffffe</color>
+    <color name="cft_red_color">#d82335</color>
+    <color name="cft_black_color">#232323</color>
     <color name="edit_text_hint_color">#97232323</color>
     <color name="buttons_text_color">#fffffe</color>
     <color name="transparent_color">#00FFFFFF</color>

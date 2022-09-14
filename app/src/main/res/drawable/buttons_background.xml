@@ -4,6 +4,6 @@
     <size
         android:width="20dp"
         android:height="20dp" />
-    <solid android:color="@color/registration_platform_background_color" />
+    <solid android:color="@color/cft_red_color" />
     <corners android:radius="8dp" />
 </shape>
