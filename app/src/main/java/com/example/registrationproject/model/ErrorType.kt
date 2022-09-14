@@ -12,6 +12,7 @@ class ErrorType {
         const val DATE_ERROR = R.string.date_error
         const val PASSWORD_ERROR = R.string.password_error
         const val CONFIRMATION_ERROR = R.string.confirmation_error
+        const val EMPTINESS_ERROR = R.string.empty_error
     }
 
 }

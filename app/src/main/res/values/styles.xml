@@ -20,7 +20,7 @@
 
     <style name="buttons_style">
         <item name="android:textAllCaps">false</item>
-        <item name="android:font">@font/audiowide</item>
+        <item name="android:font">@font/staatliches</item>
         <item name="android:paddingRight">@dimen/button_text_padding</item>
         <item name="android:paddingLeft">@dimen/button_text_padding</item>
         <item name="android:paddingTop">@dimen/button_text_padding_top</item>

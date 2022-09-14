@@ -4,4 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity"/>
+    android:background="@color/cft_white_color"
+    tools:context=".ui.MainActivity">
+
+    <Button
+        android:id="@+id/greeting_button"
+        style="@style/buttons_style"
+        android:fontFamily="@font/staatliches"
+        android:shadowColor="@color/edit_text_hint_color"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="3"
+        android:text="@string/greeting_button_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

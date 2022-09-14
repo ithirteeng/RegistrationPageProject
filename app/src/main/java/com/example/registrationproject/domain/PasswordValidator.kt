@@ -8,7 +8,9 @@ class PasswordValidator : Validator {
         val upperCasePattern = Regex("([A-Z]|[А-Я])+")
         val lowerCasePattern = Regex("([a-z]|[а-я])+")
         val numberPattern = Regex("\\d+")
-        return if (string.contains(upperCasePattern)
+        return if (string.isEmpty()) {
+            ErrorType.EMPTINESS_ERROR.toString()
+        } else if (string.contains(upperCasePattern)
             && string.contains(lowerCasePattern)
             && string.contains(numberPattern)
         ) {

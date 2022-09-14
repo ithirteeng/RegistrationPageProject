@@ -2,6 +2,7 @@ package com.example.registrationproject.ui
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -18,6 +19,11 @@ import com.example.registrationproject.model.ErrorType
 import java.util.*
 
 class RegistrationActivity : AppCompatActivity() {
+
+    companion object {
+        const val INTENT_KEY = "key"
+    }
+
     private val binding by lazy {
         ActivityRegistrationBinding.inflate(layoutInflater)
     }
@@ -42,7 +48,7 @@ class RegistrationActivity : AppCompatActivity() {
     private fun registrationButtonClickListener() {
         binding.registrationButton.setOnClickListener {
             setupGetters()
-            validateData()
+            createIntent()
         }
     }
 
@@ -102,81 +108,95 @@ class RegistrationActivity : AppCompatActivity() {
         ).show()
     }
 
+    private fun createIntent() {
+        if (validateData()) {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra(INTENT_KEY, "$surname $name")
+            startActivity(intent)
+        }
 
-
-    private fun validateData() {
-        validateName()
-        validateSurname()
-        validateDate()
-        validatePasswords()
     }
 
-    private fun validateName() {
-        if (checkIsValidate(nameValidator.checkValidity(name!!))) {
+    private fun validateData(): Boolean {
+        val nameCheck = validateName()
+        val surnameCheck = validateSurname()
+        val dateCheck = validateDate()
+        val passwordsCheck = validatePasswords()
+        return nameCheck && surnameCheck && dateCheck && passwordsCheck
+    }
+
+    private fun validateName(): Boolean {
+        return if (checkIsValidate(nameValidator.checkValidity(name!!))) {
             showValidatingError(
                 binding.nameEditText,
                 binding.nameErrorTextView,
                 nameValidator.checkValidity(name!!).toInt()
             )
+            false
         } else {
             returnTextFieldsToNormalView(binding.nameErrorTextView, binding.nameEditText)
+            true
         }
     }
 
-    private fun validateSurname() {
-        if (checkIsValidate(nameValidator.checkValidity(surname!!))) {
-            if (nameValidator.checkValidity(surname!!).toInt() == ErrorType.FIRST_NAME_ERROR) {
-                showValidatingError(
-                    binding.surnameEditText,
-                    binding.surnameErrorTextView,
-                    ErrorType.FIRST_SURNAME_ERROR
-                )
-            } else {
-                showValidatingError(
-                    binding.surnameEditText,
-                    binding.surnameErrorTextView,
-                    ErrorType.SECOND_SURNAME_ERROR
-                )
+    private fun validateSurname(): Boolean {
+        return if (checkIsValidate(nameValidator.checkValidity(surname!!))) {
+            var errorType = ErrorType.EMPTINESS_ERROR
+            val temporaryCheckedId = nameValidator.checkValidity(surname!!).toInt()
+
+            if (temporaryCheckedId == ErrorType.FIRST_NAME_ERROR) {
+                errorType = ErrorType.FIRST_SURNAME_ERROR
+            } else if (temporaryCheckedId == ErrorType.SECOND_NAME_ERROR) {
+                errorType = ErrorType.SECOND_SURNAME_ERROR
             }
+            showValidatingError(binding.surnameEditText, binding.surnameErrorTextView, errorType)
+            false
         } else {
             returnTextFieldsToNormalView(binding.surnameErrorTextView, binding.surnameEditText)
+            true
         }
     }
 
-    private fun validateDate() {
-        if (checkIsValidate(dateValidator.checkValidity(date!!))) {
+    private fun validateDate(): Boolean {
+        return if (checkIsValidate(dateValidator.checkValidity(date!!))) {
             showValidatingError(
                 binding.dateEditText,
                 binding.dateErrorTextView,
-                ErrorType.DATE_ERROR
+                dateValidator.checkValidity(date!!).toInt()
             )
+            false
         } else {
             returnTextFieldsToNormalView(binding.dateErrorTextView, binding.dateEditText)
+            true
         }
     }
 
-    private fun validatePasswords() {
-        validateFirstPassword()
+    private fun validatePasswords(): Boolean {
+        val firstCheck = validateFirstPassword()
+        var secondCheck = true
         if (!binding.passwordErrorTextView.isVisible) {
-            validateConfirmation()
+            secondCheck = validateConfirmation()
         }
+        return firstCheck && secondCheck
     }
 
-    private fun validateFirstPassword() {
-        if (checkIsValidate(passwordValidator.checkValidity(password!!))) {
+    private fun validateFirstPassword(): Boolean {
+        return if (checkIsValidate(passwordValidator.checkValidity(password!!))) {
             showValidatingError(
                 binding.passwordEditText,
                 binding.passwordErrorTextView,
-                ErrorType.PASSWORD_ERROR
+                passwordValidator.checkValidity(password!!).toInt()
             )
             colorizeError(binding.confirmationEditText, binding.passwordErrorTextView)
+            false
         } else {
             returnTextFieldsToNormalView(binding.passwordErrorTextView, binding.passwordEditText)
+            true
         }
     }
 
-    private fun validateConfirmation() {
-        if (checkIsValidate(
+    private fun validateConfirmation(): Boolean {
+        return if (checkIsValidate(
                 passwordValidator.checkEqualityPasswords(
                     password!!,
                     secondPassword!!
@@ -188,6 +208,7 @@ class RegistrationActivity : AppCompatActivity() {
                 binding.confirmationErrorTextView,
                 ErrorType.CONFIRMATION_ERROR
             )
+            false
         } else {
             returnTextFieldsToNormalView(
                 binding.confirmationErrorTextView,
@@ -197,6 +218,7 @@ class RegistrationActivity : AppCompatActivity() {
                 binding.confirmationErrorTextView,
                 binding.passwordEditText
             )
+            true
         }
     }
 
@@ -229,5 +251,6 @@ class RegistrationActivity : AppCompatActivity() {
         editText.text.clear()
         textView.visibility = View.VISIBLE
     }
+
 
 }
