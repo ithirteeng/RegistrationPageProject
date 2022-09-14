@@ -4,7 +4,7 @@
     <size
         android:width="200dp"
         android:height="200dp" />
-    <solid android:color="@color/registration_platform_background_color" />
+    <solid android:color="@color/edit_text_text_color" />
 
     <corners android:radius="10dp"/>
 

@@ -4,16 +4,17 @@ import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.example.registrationproject.R
 import com.example.registrationproject.databinding.ActivityRegistrationBinding
 import com.example.registrationproject.domain.DateValidator
 import com.example.registrationproject.domain.NameValidator
 import com.example.registrationproject.domain.PasswordValidator
+import com.example.registrationproject.model.ErrorType
 import java.util.*
 
 class RegistrationActivity : AppCompatActivity() {
@@ -25,7 +26,7 @@ class RegistrationActivity : AppCompatActivity() {
     private var surname: String? = null
     private var date: String? = null
     private var password: String? = null
-    private var confirmatedPassword: String? = null
+    private var secondPassword: String? = null
     private val nameValidator = NameValidator()
     private val dateValidator = DateValidator()
     private val passwordValidator = PasswordValidator()
@@ -36,7 +37,6 @@ class RegistrationActivity : AppCompatActivity() {
 
         registrationButtonClickListener()
         calendarButtonTouchListener()
-        returnColorToTextFields()
     }
 
     private fun registrationButtonClickListener() {
@@ -71,7 +71,7 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private fun getConfirmatedPassword() {
-        confirmatedPassword = binding.passwordConfirmationEditText.text.toString()
+        secondPassword = binding.confirmationEditText.text.toString()
     }
 
 
@@ -96,7 +96,6 @@ class RegistrationActivity : AppCompatActivity() {
                     monthString = "0$month"
                 }
                 binding.dateEditText.setText("$dayString.$monthString.$year")
-                Log.d("DATE", "$date")
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
@@ -105,76 +104,122 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private fun validateData() {
-        if (!nameValidator.checkValidity(name!!)) {
+        validateName()
+        validateSurname()
+        validateDate()
+        validatePasswords()
+    }
+
+    private fun validateName() {
+        if (checkIsValidate(nameValidator.checkValidity(name!!))) {
             showValidatingError(
                 binding.nameEditText,
-                resources.getString(R.string.name_error)
+                binding.nameErrorTextView,
+                nameValidator.checkValidity(name!!).toInt()
             )
-        } else if (!nameValidator.checkValidity(surname!!)) {
-            showValidatingError(
-                binding.surnameEditText,
-                resources.getString(R.string.surname_error)
-            )
-        } else if (!dateValidator.checkValidity(date!!)) {
+        } else {
+            returnTextFieldsToNormalView(binding.nameErrorTextView, binding.nameEditText)
+        }
+    }
+
+    private fun validateSurname() {
+        if (checkIsValidate(nameValidator.checkValidity(surname!!))) {
+            if (nameValidator.checkValidity(surname!!).toInt() == ErrorType.FIRST_NAME_ERROR) {
+                showValidatingError(
+                    binding.surnameEditText,
+                    binding.surnameErrorTextView,
+                    ErrorType.FIRST_SURNAME_ERROR
+                )
+            } else {
+                showValidatingError(
+                    binding.surnameEditText,
+                    binding.surnameErrorTextView,
+                    ErrorType.SECOND_SURNAME_ERROR
+                )
+            }
+        } else {
+            returnTextFieldsToNormalView(binding.surnameErrorTextView, binding.surnameEditText)
+        }
+    }
+
+    private fun validateDate() {
+        if (checkIsValidate(dateValidator.checkValidity(date!!))) {
             showValidatingError(
                 binding.dateEditText,
-                resources.getString(R.string.date_error)
+                binding.dateErrorTextView,
+                ErrorType.DATE_ERROR
             )
-        } else if (!passwordValidator.checkValidity(password!!)) {
-            showValidatingError(
-                binding.passwordEditText,
-                resources.getString(R.string.password_error)
-            )
-        } else if (!passwordValidator.checkEqualityPasswords(password!!, confirmatedPassword!!)) {
-            showValidatingError(
-                binding.passwordEditText,
-                resources.getString(R.string.confirmation_error)
-            )
-            showValidatingError(binding.passwordConfirmationEditText, "")
         } else {
-            showToast("INTENT")
+            returnTextFieldsToNormalView(binding.dateErrorTextView, binding.dateEditText)
         }
     }
 
-    private fun showValidatingError(editText: EditText, message: String) {
-        colorizeEditText(editText)
-        if (editText != binding.passwordConfirmationEditText) {
-            showToast(message)
+    private fun validatePasswords() {
+        validateFirstPassword()
+        if (!binding.passwordErrorTextView.isVisible) {
+            validateConfirmation()
         }
-
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(
-            this,
-            message,
-            Toast.LENGTH_LONG
-        ).show()
+    private fun validateFirstPassword() {
+        if (checkIsValidate(passwordValidator.checkValidity(password!!))) {
+            showValidatingError(
+                binding.passwordEditText,
+                binding.passwordErrorTextView,
+                ErrorType.PASSWORD_ERROR
+            )
+            colorizeError(binding.confirmationEditText, binding.passwordErrorTextView)
+        } else {
+            returnTextFieldsToNormalView(binding.passwordErrorTextView, binding.passwordEditText)
+        }
     }
 
-    private fun colorizeEditText(editText: EditText) {
+    private fun validateConfirmation() {
+        if (checkIsValidate(passwordValidator.checkEqualityPasswords(password!!, secondPassword!!))) {
+            showValidatingError(
+                binding.confirmationEditText,
+                binding.confirmationErrorTextView,
+                ErrorType.CONFIRMATION_ERROR
+            )
+        } else {
+            returnTextFieldsToNormalView(
+                binding.confirmationErrorTextView,
+                binding.confirmationEditText
+            )
+            returnTextFieldsToNormalView(
+                binding.confirmationErrorTextView,
+                binding.passwordEditText
+            )
+        }
+    }
+
+    private fun returnTextFieldsToNormalView(textView: TextView, editText: EditText) {
+        textView.visibility = View.INVISIBLE
+        editText.setHintTextColor(
+            resources.getColor(
+                R.color.edit_text_hint_color,
+                this.theme
+            )
+        )
+    }
+
+    private fun checkIsValidate(id: String): Boolean {
+        return id != ErrorType.OK
+    }
+
+    private fun showValidatingError(editText: EditText, textView: TextView, id: Int) {
+        changeText(textView, id)
+        colorizeError(editText, textView)
+    }
+
+    private fun changeText(textView: TextView, id: Int) {
+        textView.text = resources.getString(id)
+    }
+
+    private fun colorizeError(editText: EditText, textView: TextView) {
         editText.setHintTextColor(Color.RED)
         editText.text.clear()
-    }
-
-    private fun returnColorToTextFields() {
-        for (editTextId in binding.editTextsGroup.referencedIds) {
-            val editText = findViewById<EditText>(editTextId)
-            findViewById<View>(editTextId).setOnFocusChangeListener { _, isFocused ->
-                if (isFocused) {
-                    if (editText.text.isEmpty()) {
-                        editText.setHintTextColor(
-                            resources.getColor(
-                                R.color.edit_text_hint_color,
-                                this.theme
-                            )
-                        )
-                    }
-                } else {
-                    editText.defaultFocusHighlightEnabled = false
-                }
-            }
-        }
+        textView.visibility = View.VISIBLE
     }
 
 }

@@ -4,7 +4,6 @@
     <size
         android:width="20dp"
         android:height="20dp" />
-    <solid android:color="@color/buttons_text_color" />
-    <corners android:radius="5dp" />
-
+    <solid android:color="@color/registration_platform_background_color" />
+    <corners android:radius="8dp" />
 </shape>

@@ -9,9 +9,11 @@
     <string name="password_confirmation_text">Confirm your password</string>
     <string name="registration_button_text">registration</string>
     
-    <string name="name_error">Имя должно состоять только из букв и начинаться с заглавной буквы!</string>
-    <string name="surname_error">Фамилия должна состоять только из букв и начинаться с заглавной буквы!</string>
-    <string name="date_error">Дата должна быть в формате ДД.ММ.ГГГГ</string>
-    <string name="password_error">Пароль должен содержать символы А–Яа–я_0–9 </string>
-    <string name="confirmation_error">Пароли не совпадают</string>
+    <string name="first_name_error">Имя начинается с заглавной буквы!</string>
+    <string name="second_name_error">Имя состоит только из букв!</string>
+    <string name="first_surname_error">Фамилия начинается с заглавной буквы!</string>
+    <string name="second_surname_error">Фамилия состоит только из букв!</string>
+    <string name="date_error">Дата должна быть в формате ДД.ММ.ГГГГ!</string>
+    <string name="password_error">Пароль должен содержать символы А–Яа–я_0–9!</string>
+    <string name="confirmation_error">Пароли не совпадают!</string>
 </resources>

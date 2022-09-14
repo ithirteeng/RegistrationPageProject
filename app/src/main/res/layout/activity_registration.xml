@@ -17,6 +17,7 @@
         android:src="@drawable/registration_main_form"
         app:layout_constraintBottom_toTopOf="@+id/middle_guideline"
         app:layout_constraintEnd_toEndOf="@+id/shift_logo_image_view"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/shift_logo_image_view"
         app:layout_constraintTop_toTopOf="@+id/top_guideline"
         app:layout_constraintVertical_bias="0.0"
@@ -27,14 +28,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.3" />
+        app:layout_constraintGuide_percent="0.27" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/middle_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.85" />
+        app:layout_constraintGuide_percent="0.8112175" />
 
     <EditText
         android:id="@+id/name_edit_text"
@@ -87,7 +88,7 @@
         android:hint="@string/password_text"
         android:importantForAutofill="no"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@id/password_confirmation_edit_text"
+        app:layout_constraintBottom_toTopOf="@id/confirmation_edit_text"
         app:layout_constraintEnd_toEndOf="@+id/registration_platform"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/registration_platform"
@@ -95,7 +96,7 @@
         tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
 
     <EditText
-        android:id="@+id/password_confirmation_edit_text"
+        android:id="@+id/confirmation_edit_text"
         style="@style/registration_edit_texts_style"
         android:layout_marginBottom="@dimen/edit_text_special_margin_top_bottom"
         android:ems="10"
@@ -116,7 +117,7 @@
         android:layout_marginEnd="40dp"
         android:contentDescription="@string/content_description"
         android:padding="30dp"
-        android:scaleType="centerInside"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/top_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -126,26 +127,34 @@
     <Button
         android:id="@+id/registration_button"
         style="@style/buttons_style"
-        android:fontFamily="@font/audiowide"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="@font/staatliches"
+        android:shadowColor="@color/edit_text_hint_color"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="3"
         android:stateListAnimator="@animator/button_animation"
         android:text="@string/registration_button_text"
+        android:translationZ="8dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/middle_guideline" />
+        app:layout_constraintTop_toTopOf="@+id/middle_guideline"
+        tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/bottom_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.96" />
+        app:layout_constraintGuide_percent="0.97" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/edit_texts_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="name_edit_text,surname_edit_text,password_edit_text,password_confirmation_edit_text,date_edit_text" />
+        app:constraint_referenced_ids="name_edit_text,surname_edit_text,password_edit_text,confirmation_edit_text,date_edit_text" />
 
     <ImageButton
         android:id="@+id/calendar_button"
@@ -162,5 +171,59 @@
         app:layout_constraintTop_toTopOf="@+id/date_edit_text"
         app:srcCompat="@android:drawable/ic_menu_my_calendar"
         tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,TouchTargetSizeCheck,ImageContrastCheck" />
+
+    <TextView
+        android:id="@+id/name_error_text_view"
+        style="@style/error_text_style"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/surname_edit_text"
+        app:layout_constraintEnd_toEndOf="@+id/name_edit_text"
+        app:layout_constraintStart_toStartOf="@+id/name_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/name_edit_text" />
+
+    <TextView
+        android:id="@+id/surname_error_text_view"
+        style="@style/error_text_style"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/date_edit_text"
+        app:layout_constraintEnd_toEndOf="@+id/surname_edit_text"
+        app:layout_constraintStart_toStartOf="@+id/surname_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/surname_edit_text"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/date_error_text_view"
+        style="@style/error_text_style"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/password_edit_text"
+        app:layout_constraintEnd_toEndOf="@+id/date_edit_text"
+        app:layout_constraintStart_toStartOf="@+id/date_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/date_edit_text"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/password_error_text_view"
+        style="@style/error_text_style"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/confirmation_edit_text"
+        app:layout_constraintEnd_toEndOf="@+id/password_edit_text"
+        app:layout_constraintStart_toStartOf="@+id/password_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/password_edit_text"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/confirmation_error_text_view"
+        style="@style/error_text_style"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/middle_guideline"
+        app:layout_constraintEnd_toEndOf="@+id/confirmation_edit_text"
+        app:layout_constraintStart_toStartOf="@+id/confirmation_edit_text"
+        app:layout_constraintTop_toBottomOf="@+id/confirmation_edit_text"
+        tools:ignore="TextContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
