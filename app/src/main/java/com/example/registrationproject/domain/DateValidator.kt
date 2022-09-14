@@ -1,0 +1,12 @@
+package com.example.registrationproject.domain
+
+import com.example.registrationproject.model.Validator
+
+class DateValidator : Validator {
+    override fun checkValidity(string: String): Boolean {
+        val firstPattern = Regex("(0[1-9]|[1-2]\\d|3[0-1])\\.(01|03|05|07|08|10|12)\\.((20([01]\\d|2[0-2]))|(19\\d\\d))\\s*")
+        val secondPattern = Regex("(0[1-9]|[12]\\d|30)\\.(04|06|09|11)\\.((20([01]\\d|2[0-2]))|(19\\d\\d))\\s*")
+        val thirdPattern = Regex("(0[1-9]|[12]\\d)\\.(02)\\.((20([01]\\d|2[0-2]))|(19\\d\\d))\\s*")
+        return string.matches(firstPattern) || string.matches(secondPattern) || string.matches(thirdPattern)
+    }
+}

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/registration_activity_background_color"
+    android:outlineAmbientShadowColor="@color/edit_text_text_color"
+    tools:context=".ui.RegistrationActivity">
+
+    <ImageView
+        android:id="@+id/registration_platform"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/content_description"
+        android:scaleType="fitXY"
+        android:src="@drawable/registration_main_form"
+        app:layout_constraintBottom_toTopOf="@+id/middle_guideline"
+        app:layout_constraintEnd_toEndOf="@+id/shift_logo_image_view"
+        app:layout_constraintStart_toStartOf="@+id/shift_logo_image_view"
+        app:layout_constraintTop_toTopOf="@+id/top_guideline"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="ImageContrastCheck" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/top_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/middle_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.85" />
+
+    <EditText
+        android:id="@+id/name_edit_text"
+        style="@style/registration_edit_texts_style"
+        android:layout_marginTop="@dimen/edit_text_special_margin_top_bottom"
+        android:ems="10"
+        android:hint="@string/name_text"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/surname_edit_text"
+        app:layout_constraintEnd_toEndOf="@+id/registration_platform"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/registration_platform"
+        app:layout_constraintTop_toTopOf="@+id/top_guideline"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
+
+    <EditText
+        android:id="@+id/surname_edit_text"
+        style="@style/registration_edit_texts_style"
+        android:ems="10"
+        android:hint="@string/surname_text"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/date_edit_text"
+        app:layout_constraintEnd_toEndOf="@+id/registration_platform"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/registration_platform"
+        app:layout_constraintTop_toBottomOf="@+id/name_edit_text"
+        tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
+
+    <EditText
+        android:id="@+id/date_edit_text"
+        style="@style/registration_edit_texts_style"
+        android:ems="10"
+        android:hint="@string/date_text"
+        android:importantForAutofill="no"
+        android:inputType="date"
+        app:layout_constraintBottom_toTopOf="@+id/password_edit_text"
+        app:layout_constraintEnd_toEndOf="@+id/registration_platform"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/registration_platform"
+        app:layout_constraintTop_toBottomOf="@+id/surname_edit_text"
+        tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
+
+    <EditText
+        android:id="@+id/password_edit_text"
+        style="@style/registration_edit_texts_style"
+        android:ems="10"
+        android:hint="@string/password_text"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@id/password_confirmation_edit_text"
+        app:layout_constraintEnd_toEndOf="@+id/registration_platform"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/registration_platform"
+        app:layout_constraintTop_toBottomOf="@+id/date_edit_text"
+        tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
+
+    <EditText
+        android:id="@+id/password_confirmation_edit_text"
+        style="@style/registration_edit_texts_style"
+        android:layout_marginBottom="@dimen/edit_text_special_margin_top_bottom"
+        android:ems="10"
+        android:hint="@string/password_confirmation_text"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/middle_guideline"
+        app:layout_constraintEnd_toEndOf="@+id/registration_platform"
+        app:layout_constraintStart_toStartOf="@+id/registration_platform"
+        app:layout_constraintTop_toBottomOf="@+id/password_edit_text"
+        tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
+
+    <ImageView
+        android:id="@+id/shift_logo_image_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:contentDescription="@string/content_description"
+        android:padding="30dp"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@+id/top_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/shift_logo" />
+
+    <Button
+        android:id="@+id/registration_button"
+        style="@style/buttons_style"
+        android:fontFamily="@font/audiowide"
+        android:stateListAnimator="@animator/button_animation"
+        android:text="@string/registration_button_text"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/middle_guideline" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottom_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.96" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/edit_texts_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="name_edit_text,surname_edit_text,password_edit_text,password_confirmation_edit_text,date_edit_text" />
+
+    <ImageButton
+        android:id="@+id/calendar_button"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/calendar_button_background"
+        android:contentDescription="@string/content_description"
+        android:padding="5dp"
+        android:scaleType="center"
+        android:translationZ="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/date_edit_text"
+        app:layout_constraintEnd_toEndOf="@+id/date_edit_text"
+        app:layout_constraintTop_toTopOf="@+id/date_edit_text"
+        app:srcCompat="@android:drawable/ic_menu_my_calendar"
+        tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,TouchTargetSizeCheck,ImageContrastCheck" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

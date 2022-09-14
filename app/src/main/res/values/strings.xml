@@ -1,0 +1,17 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">RegistrationProject</string>
+    <string name="content_description">content</string>
+    <string name="name_text">Your name</string>
+    <string name="surname_text">Your surname</string>
+    <string name="date_text">Your birthday date</string>
+    <string name="password_text">Your password</string>
+    
+    <string name="password_confirmation_text">Confirm your password</string>
+    <string name="registration_button_text">registration</string>
+    
+    <string name="name_error">Имя должно состоять только из букв и начинаться с заглавной буквы!</string>
+    <string name="surname_error">Фамилия должна состоять только из букв и начинаться с заглавной буквы!</string>
+    <string name="date_error">Дата должна быть в формате ДД.ММ.ГГГГ</string>
+    <string name="password_error">Пароль должен содержать символы А–Яа–я_0–9 </string>
+    <string name="confirmation_error">Пароли не совпадают</string>
+</resources>
