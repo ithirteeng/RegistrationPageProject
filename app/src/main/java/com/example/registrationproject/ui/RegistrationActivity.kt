@@ -36,7 +36,7 @@ class RegistrationActivity : AppCompatActivity() {
 
         registrationButtonClickListener()
         calendarButtonTouchListener()
-        returnNormalColor()
+        returnColorToTextFields()
     }
 
     private fun registrationButtonClickListener() {
@@ -52,6 +52,26 @@ class RegistrationActivity : AppCompatActivity() {
         getDate()
         getPassword()
         getConfirmatedPassword()
+    }
+
+    private fun getName() {
+        name = binding.nameEditText.text.toString()
+    }
+
+    private fun getSurname() {
+        surname = binding.surnameEditText.text.toString()
+    }
+
+    private fun getDate() {
+        date = binding.dateEditText.text.toString()
+    }
+
+    private fun getPassword() {
+        password = binding.passwordEditText.text.toString()
+    }
+
+    private fun getConfirmatedPassword() {
+        confirmatedPassword = binding.passwordConfirmationEditText.text.toString()
     }
 
 
@@ -83,30 +103,6 @@ class RegistrationActivity : AppCompatActivity() {
             calendar.get(Calendar.DAY_OF_MONTH)
         ).show()
     }
-
-
-    private fun getName() {
-        name = binding.nameEditText.text.toString()
-    }
-
-    private fun getSurname() {
-        surname = binding.surnameEditText.text.toString()
-    }
-
-    private fun getDate() {
-        date = binding.dateEditText.text.toString()
-
-
-    }
-
-    private fun getPassword() {
-        password = binding.passwordEditText.text.toString()
-    }
-
-    private fun getConfirmatedPassword() {
-        confirmatedPassword = binding.passwordConfirmationEditText.text.toString()
-    }
-
 
     private fun validateData() {
         if (!nameValidator.checkValidity(name!!)) {
@@ -161,7 +157,7 @@ class RegistrationActivity : AppCompatActivity() {
         editText.text.clear()
     }
 
-    private fun returnNormalColor() {
+    private fun returnColorToTextFields() {
         for (editTextId in binding.editTextsGroup.referencedIds) {
             val editText = findViewById<EditText>(editTextId)
             findViewById<View>(editTextId).setOnFocusChangeListener { _, isFocused ->
