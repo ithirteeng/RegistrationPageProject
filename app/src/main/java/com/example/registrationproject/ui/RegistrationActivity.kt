@@ -15,6 +15,7 @@ import com.example.registrationproject.databinding.ActivityRegistrationBinding
 import com.example.registrationproject.domain.DateValidator
 import com.example.registrationproject.domain.NameValidator
 import com.example.registrationproject.domain.PasswordValidator
+import com.example.registrationproject.domain.SurnameValidator
 import com.example.registrationproject.model.ErrorType
 import java.util.*
 
@@ -33,9 +34,12 @@ class RegistrationActivity : AppCompatActivity() {
     private var date: String? = null
     private var password: String? = null
     private var secondPassword: String? = null
+
     private val nameValidator = NameValidator()
+    private val surnameValidator = SurnameValidator()
     private val dateValidator = DateValidator()
     private val passwordValidator = PasswordValidator()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -140,16 +144,12 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private fun validateSurname(): Boolean {
-        return if (checkIsValidate(nameValidator.checkValidity(surname!!))) {
-            var errorType = ErrorType.EMPTINESS_ERROR
-            val temporaryCheckedId = nameValidator.checkValidity(surname!!).toInt()
-
-            if (temporaryCheckedId == ErrorType.FIRST_NAME_ERROR) {
-                errorType = ErrorType.FIRST_SURNAME_ERROR
-            } else if (temporaryCheckedId == ErrorType.SECOND_NAME_ERROR) {
-                errorType = ErrorType.SECOND_SURNAME_ERROR
-            }
-            showValidatingError(binding.surnameEditText, binding.surnameErrorTextView, errorType)
+        return if (checkIsValidate(surnameValidator.checkValidity(surname!!))) {
+            showValidatingError(
+                binding.surnameEditText,
+                binding.surnameErrorTextView,
+                surnameValidator.checkValidity(surname!!).toInt()
+            )
             false
         } else {
             returnTextFieldsToNormalView(binding.surnameErrorTextView, binding.surnameEditText)
