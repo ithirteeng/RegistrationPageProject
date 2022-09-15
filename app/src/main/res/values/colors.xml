@@ -10,6 +10,7 @@
     <!--  my colors  -->
     <color name="cft_white_color">#fffffe</color>
     <color name="cft_red_color">#d82335</color>
+    <color name="time_picker_color">#ED394B</color>
     <color name="cft_black_color">#232323</color>
     <color name="edit_text_hint_color">#97232323</color>
     <color name="buttons_text_color">#fffffe</color>

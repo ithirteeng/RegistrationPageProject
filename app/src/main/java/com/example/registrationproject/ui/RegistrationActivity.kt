@@ -95,6 +95,7 @@ class RegistrationActivity : AppCompatActivity() {
         val calendar = Calendar.getInstance()
         DatePickerDialog(
             this,
+            R.style.date_picker_style,
             { _, year, month, day ->
                 var dayString = day.toString()
                 var monthString = month.toString()
@@ -110,6 +111,7 @@ class RegistrationActivity : AppCompatActivity() {
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
         ).show()
+
     }
 
     private fun createIntent() {
@@ -130,45 +132,27 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private fun validateName(): Boolean {
-        return if (checkIsValidate(nameValidator.checkValidity(name!!))) {
-            showValidatingError(
-                binding.nameEditText,
-                binding.nameErrorTextView,
-                nameValidator.checkValidity(name!!).toInt()
-            )
-            false
-        } else {
-            returnTextFieldsToNormalView(binding.nameErrorTextView, binding.nameEditText)
-            true
-        }
+        return helpInValidation(
+            nameValidator.checkValidity(name!!),
+            binding.nameEditText,
+            binding.nameErrorTextView
+        )
     }
 
     private fun validateSurname(): Boolean {
-        return if (checkIsValidate(surnameValidator.checkValidity(surname!!))) {
-            showValidatingError(
-                binding.surnameEditText,
-                binding.surnameErrorTextView,
-                surnameValidator.checkValidity(surname!!).toInt()
-            )
-            false
-        } else {
-            returnTextFieldsToNormalView(binding.surnameErrorTextView, binding.surnameEditText)
-            true
-        }
+        return helpInValidation(
+            surnameValidator.checkValidity(surname!!),
+            binding.surnameEditText,
+            binding.surnameErrorTextView
+        )
     }
 
     private fun validateDate(): Boolean {
-        return if (checkIsValidate(dateValidator.checkValidity(date!!))) {
-            showValidatingError(
-                binding.dateEditText,
-                binding.dateErrorTextView,
-                dateValidator.checkValidity(date!!).toInt()
-            )
-            false
-        } else {
-            returnTextFieldsToNormalView(binding.dateErrorTextView, binding.dateEditText)
-            true
-        }
+        return helpInValidation(
+            dateValidator.checkValidity(date!!),
+            binding.dateEditText,
+            binding.dateErrorTextView
+        )
     }
 
     private fun validatePasswords(): Boolean {
@@ -181,18 +165,16 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private fun validateFirstPassword(): Boolean {
-        return if (checkIsValidate(passwordValidator.checkValidity(password!!))) {
-            showValidatingError(
-                binding.passwordEditText,
-                binding.passwordErrorTextView,
-                passwordValidator.checkValidity(password!!).toInt()
-            )
+        val validityCheck = helpInValidation(
+            passwordValidator.checkValidity(password!!),
+            binding.passwordEditText,
+            binding.passwordErrorTextView
+        )
+        if (!validityCheck) {
             colorizeError(binding.confirmationEditText, binding.passwordErrorTextView)
-            false
-        } else {
-            returnTextFieldsToNormalView(binding.passwordErrorTextView, binding.passwordEditText)
-            true
         }
+        return validityCheck
+
     }
 
     private fun validateConfirmation(): Boolean {
@@ -222,6 +204,16 @@ class RegistrationActivity : AppCompatActivity() {
         }
     }
 
+
+    private fun helpInValidation(errorID: String, editText: EditText, textView: TextView): Boolean {
+        return if (checkIsValidate(errorID)) {
+            showValidatingError(editText, textView, errorID.toInt())
+            false
+        } else {
+            returnTextFieldsToNormalView(textView, editText)
+            true
+        }
+    }
 
     private fun returnTextFieldsToNormalView(textView: TextView, editText: EditText) {
         textView.visibility = View.INVISIBLE
