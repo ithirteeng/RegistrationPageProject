@@ -16,6 +16,8 @@
     <string name="password_error">Пароль должен содержать только цифры и буквы!</string>
     <string name="confirmation_error">Пароли не совпадают!</string>
     <string name="empty_error">Поле не должно быть пустым!</string>
+    <string name="length_error">Пароль должен содержать не менее 4-х символов!</string>
+    <string name="ok_error_result">окей</string>
 
     <string name="greeting_button_text">greeting!</string>
     <string name="greeting_text">Приветствую</string>

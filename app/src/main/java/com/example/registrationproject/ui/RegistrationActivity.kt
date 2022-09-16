@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.registrationproject.R
 import com.example.registrationproject.data.repositoriew.UserRepositoryImpl
 import com.example.registrationproject.databinding.ActivityRegistrationBinding
-import com.example.registrationproject.domain.model.ErrorType
 import com.example.registrationproject.domain.model.User
 import com.example.registrationproject.domain.uc.DataValidatorUseCase
 import com.example.registrationproject.domain.uc.GetUserNameUseCase
@@ -21,6 +20,8 @@ import com.example.registrationproject.domain.validator.DateValidator
 import com.example.registrationproject.domain.validator.NameValidator
 import com.example.registrationproject.domain.validator.PasswordValidator
 import com.example.registrationproject.domain.validator.SurnameValidator
+import com.example.registrationproject.ui.model.TextField
+import com.example.registrationproject.ui.model.TextFieldType
 import java.util.*
 
 class RegistrationActivity : AppCompatActivity() {
@@ -47,6 +48,9 @@ class RegistrationActivity : AppCompatActivity() {
     private var password: String? = null
     private var secondPassword: String? = null
 
+    private val textFieldsMap: MutableMap<TextFieldType, TextField> = mutableMapOf()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -58,6 +62,8 @@ class RegistrationActivity : AppCompatActivity() {
     private fun registrationButtonClickListener() {
         binding.registrationButton.setOnClickListener {
             setupGetters()
+            validateUserData()
+
             if (checkUserDataValidity()) {
                 saveUserDataUseCase.execute(
                     User(
@@ -78,7 +84,7 @@ class RegistrationActivity : AppCompatActivity() {
         getSurname()
         getDate()
         getPassword()
-        getConfirmatedPassword()
+        getConfirmationPassword()
     }
 
     private fun getName() {
@@ -97,7 +103,7 @@ class RegistrationActivity : AppCompatActivity() {
         password = binding.passwordEditText.text.toString()
     }
 
-    private fun getConfirmatedPassword() {
+    private fun getConfirmationPassword() {
         secondPassword = binding.confirmationEditText.text.toString()
     }
 
@@ -107,103 +113,105 @@ class RegistrationActivity : AppCompatActivity() {
 
 
     private fun checkUserDataValidity(): Boolean {
-        val nameCheck = checkNameValidity()
-        val surnameCheck = checkSurnameValidity()
-        val dateCheck = checkDateValidity()
-        val passwordsCheck = checkPasswordConditionsValidity()
-        return nameCheck && surnameCheck && dateCheck && passwordsCheck
-    }
-
-    private fun checkNameValidity(): Boolean {
-        return helpInValidation(
-            dataValidatorUseCase.execute(NameValidator(), name!!),
-            binding.nameEditText,
-            binding.nameErrorTextView
-        )
-    }
-
-    private fun checkSurnameValidity(): Boolean {
-        return helpInValidation(
-            dataValidatorUseCase.execute(SurnameValidator(), surname!!),
-            binding.surnameEditText,
-            binding.surnameErrorTextView
-        )
-    }
-
-    private fun checkDateValidity(): Boolean {
-        return helpInValidation(
-            dataValidatorUseCase.execute(DateValidator(), date!!),
-            binding.dateEditText,
-            binding.dateErrorTextView
-        )
-    }
-
-    private fun checkPasswordConditionsValidity(): Boolean {
-        val passwordsValidityCheck = checkPasswordValidity()
-        val confirmationCheck = checkPasswordsConfirmation()
-
-        return passwordsValidityCheck && confirmationCheck
-    }
-
-    private fun checkPasswordValidity(): Boolean {
-        val validityCheck = helpInValidation(
-            dataValidatorUseCase.execute(PasswordValidator(), password!!),
-            binding.passwordEditText,
-            binding.passwordErrorTextView
-        )
-        if (!validityCheck) {
-            colorizeError(binding.confirmationEditText, binding.passwordErrorTextView)
+        for (textField in textFieldsMap) {
+            if (!textField.value.isValid()) {
+                return false
+            }
         }
-        return validityCheck
-
+        return true
     }
 
-    private fun checkPasswordsConfirmation(): Boolean {
-        val errorId = dataValidatorUseCase.execute(
-            passwordValidator = PasswordValidator(),
-            firstPassword = password!!,
-            secondPassword = secondPassword!!
+    private fun validateUserData() {
+        validateName()
+        validateSurname()
+        validateDate()
+        validatePassword()
+        validateConfirmation()
+    }
+
+    private fun validateName() {
+        val nameTextField = TextField(
+            type = TextFieldType.NAME,
+            errorId = dataValidatorUseCase.execute(NameValidator(), name!!),
+            editText = binding.nameEditText,
+            textView = binding.nameErrorTextView
         )
-        return if (checkIsValid(errorId)) {
-            showValidatingError(
-                binding.confirmationEditText,
-                binding.confirmationErrorTextView,
-                errorId.toInt()
-            )
-            false
+        textFieldsMap[TextFieldType.NAME] = nameTextField
+        changeTextFieldsByValidity(nameTextField)
+    }
+
+    private fun validateSurname() {
+        val surnameTextField = TextField(
+            type = TextFieldType.SURNAME,
+            errorId = dataValidatorUseCase.execute(SurnameValidator(), surname!!),
+            editText = binding.surnameEditText,
+            textView = binding.surnameErrorTextView
+        )
+        textFieldsMap[TextFieldType.SURNAME] = surnameTextField
+        changeTextFieldsByValidity(surnameTextField)
+    }
+
+    private fun validateDate() {
+        val dateTextField = TextField(
+            type = TextFieldType.DATE,
+            errorId = dataValidatorUseCase.execute(DateValidator(), date!!),
+            editText = binding.dateEditText,
+            textView = binding.dateErrorTextView
+        )
+        textFieldsMap[TextFieldType.DATE] = dateTextField
+        changeTextFieldsByValidity(dateTextField)
+    }
+
+    private fun validatePassword() {
+        val passwordTextField = TextField(
+            type = TextFieldType.PASSWORD,
+            errorId = dataValidatorUseCase.execute(PasswordValidator(), password!!),
+            editText = binding.passwordEditText,
+            textView = binding.passwordErrorTextView
+        )
+        textFieldsMap[TextFieldType.PASSWORD] = passwordTextField
+        changeTextFieldsByValidity(passwordTextField)
+    }
+
+    private fun validateConfirmation() {
+        val confirmationTextField = TextField(
+            type = TextFieldType.CONFIRMATION,
+            errorId = dataValidatorUseCase.execute(
+                PasswordValidator(),
+                password!!,
+                secondPassword!!
+            ),
+            editText = binding.confirmationEditText,
+            textView = binding.confirmationErrorTextView
+        )
+        textFieldsMap[TextFieldType.CONFIRMATION] = confirmationTextField
+        changeTextFieldsByValidity(confirmationTextField)
+    }
+
+    private fun changeTextFieldsByValidity(textField: TextField) {
+        if (textField.isValid()) {
+            returnTextFieldsToNormalView(textField.textView, textField.editText)
+            if (textField.type == TextFieldType.CONFIRMATION) {
+                returnTextFieldsToNormalView(
+                    binding.confirmationErrorTextView,
+                    binding.passwordEditText
+                )
+            }
         } else {
-            returnTextFieldsToNormalView(
-                binding.confirmationErrorTextView,
-                binding.confirmationEditText
-            )
-            returnTextFieldsToNormalView(
-                binding.confirmationErrorTextView,
-                binding.passwordEditText
-            )
-            true
+            showValidatingError(textField.editText, textField.textView, textField.errorId)
+            if (textField.type == TextFieldType.PASSWORD) {
+                colorizeError(binding.confirmationEditText, binding.passwordErrorTextView)
+            }
         }
     }
 
-    private fun helpInValidation(errorID: String, editText: EditText, textView: TextView): Boolean {
-        return if (checkIsValid(errorID)) {
-            showValidatingError(editText, textView, errorID.toInt())
-            false
-        } else {
-            returnTextFieldsToNormalView(textView, editText)
-            true
-        }
-    }
-
-    private fun checkIsValid(id: String): Boolean {
-        return id != ErrorType.OK
-    }
 
     private fun showValidatingError(editText: EditText, textView: TextView, errorId: Int) {
-        changeText(textView, errorId)
+        changeTextByErrorType(textView, errorId)
         colorizeError(editText, textView)
     }
 
-    private fun changeText(textView: TextView, errorId: Int) {
+    private fun changeTextByErrorType(textView: TextView, errorId: Int) {
         textView.text = resources.getString(errorId)
     }
 
