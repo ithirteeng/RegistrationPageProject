@@ -13,9 +13,9 @@ import com.example.registrationproject.R
 import com.example.registrationproject.data.repositoriew.UserRepositoryImpl
 import com.example.registrationproject.databinding.ActivityRegistrationBinding
 import com.example.registrationproject.domain.model.User
-import com.example.registrationproject.domain.uc.DataValidatorUseCase
-import com.example.registrationproject.domain.uc.GetUserNameUseCase
-import com.example.registrationproject.domain.uc.SaveUserDataUseCase
+import com.example.registrationproject.domain.usecase.DataValidatorUseCase
+import com.example.registrationproject.domain.usecase.GetUserNameUseCase
+import com.example.registrationproject.domain.usecase.SaveUserDataUseCase
 import com.example.registrationproject.domain.validator.DateValidator
 import com.example.registrationproject.domain.validator.NameValidator
 import com.example.registrationproject.domain.validator.PasswordValidator
@@ -69,14 +69,7 @@ class RegistrationActivity : AppCompatActivity() {
             validateUserData()
 
             if (checkUserDataValidity()) {
-                saveUserDataUseCase.execute(
-                    User(
-                        name!!,
-                        surname!!,
-                        date!!,
-                        password!!
-                    )
-                )
+                saveUserDataUseCase.execute(User(name!!, surname!!, date!!, password!!))
                 makeIntent()
             }
 

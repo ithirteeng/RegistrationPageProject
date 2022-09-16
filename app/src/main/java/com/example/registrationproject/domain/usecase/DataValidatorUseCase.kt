@@ -1,4 +1,4 @@
-package com.example.registrationproject.domain.uc
+package com.example.registrationproject.domain.usecase
 
 import com.example.registrationproject.domain.validator.PasswordValidator
 import com.example.registrationproject.domain.validator.Validator

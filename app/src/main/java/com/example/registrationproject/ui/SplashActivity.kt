@@ -3,11 +3,10 @@ package com.example.registrationproject.ui
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.example.registrationproject.data.repositoriew.UserRepositoryImpl
 import com.example.registrationproject.databinding.ActivitySplashBinding
-import com.example.registrationproject.domain.uc.GetUserNameUseCase
+import com.example.registrationproject.domain.usecase.GetUserNameUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
