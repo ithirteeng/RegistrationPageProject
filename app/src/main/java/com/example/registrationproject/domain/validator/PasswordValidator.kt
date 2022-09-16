@@ -4,15 +4,10 @@ import com.example.registrationproject.domain.model.ErrorType
 
 class PasswordValidator : Validator {
     override fun checkValidity(string: String): String {
-        val upperCasePattern = Regex("([A-Z]|[А-Я])+")
-        val lowerCasePattern = Regex("([a-z]|[а-я])+")
-        val numberPattern = Regex("\\d+")
+        val pattern = Regex("(([a-z]|[а-я]|[A-Z]|[А-Я])+|[0-9]+)+")
         return if (string.isEmpty()) {
             ErrorType.EMPTINESS_ERROR.toString()
-        } else if (string.contains(upperCasePattern)
-            && string.contains(lowerCasePattern)
-            && string.contains(numberPattern)
-        ) {
+        } else if (string.matches(pattern)) {
             ErrorType.OK
         } else {
             ErrorType.PASSWORD_ERROR.toString()
@@ -21,10 +16,14 @@ class PasswordValidator : Validator {
     }
 
     fun checkEqualityPasswords(firstPassword: String, secondPassword: String): String {
-        return if (firstPassword == secondPassword && firstPassword.isNotEmpty()) {
-            ErrorType.OK
+        return if (secondPassword.isEmpty() && firstPassword.isEmpty()) {
+            ErrorType.EMPTINESS_ERROR.toString()
         } else {
-            ErrorType.CONFIRMATION_ERROR.toString()
+            if (firstPassword == secondPassword && firstPassword.isNotEmpty()) {
+                ErrorType.OK
+            } else {
+                ErrorType.CONFIRMATION_ERROR.toString()
+            }
         }
     }
 

@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import com.example.registrationproject.R
 import com.example.registrationproject.data.repositoriew.UserRepositoryImpl
 import com.example.registrationproject.databinding.ActivityRegistrationBinding
@@ -29,11 +28,18 @@ class RegistrationActivity : AppCompatActivity() {
         ActivityRegistrationBinding.inflate(layoutInflater)
     }
 
-    private val userRepositoryImpl = UserRepositoryImpl()
-
-    private val saveUserDataUseCase = SaveUserDataUseCase(userRepositoryImpl)
-    private val getUserDataUseCase = GetUserNameUseCase(userRepositoryImpl)
-    private val dataValidatorUseCase = DataValidatorUseCase()
+    private val userRepositoryImpl by lazy {
+        UserRepositoryImpl(applicationContext)
+    }
+    private val saveUserDataUseCase by lazy {
+        SaveUserDataUseCase(userRepositoryImpl)
+    }
+    private val getUserDataUseCase by lazy {
+        GetUserNameUseCase(userRepositoryImpl)
+    }
+    private val dataValidatorUseCase by lazy {
+        DataValidatorUseCase()
+    }
 
     private var name: String? = null
     private var surname: String? = null
@@ -53,12 +59,14 @@ class RegistrationActivity : AppCompatActivity() {
         binding.registrationButton.setOnClickListener {
             setupGetters()
             if (checkUserDataValidity()) {
-                saveUserDataUseCase.execute(User(
-                    name!!,
-                    surname!!,
-                    date!!,
-                    password!!
-                ))
+                saveUserDataUseCase.execute(
+                    User(
+                        name!!,
+                        surname!!,
+                        date!!,
+                        password!!
+                    )
+                )
                 makeIntent()
             }
 
@@ -132,10 +140,8 @@ class RegistrationActivity : AppCompatActivity() {
 
     private fun checkPasswordConditionsValidity(): Boolean {
         val passwordsValidityCheck = checkPasswordValidity()
-        var confirmationCheck = true
-        if (!binding.passwordErrorTextView.isVisible) {
-            confirmationCheck = checkPasswordsConfirmation()
-        }
+        val confirmationCheck = checkPasswordsConfirmation()
+
         return passwordsValidityCheck && confirmationCheck
     }
 
@@ -162,7 +168,7 @@ class RegistrationActivity : AppCompatActivity() {
             showValidatingError(
                 binding.confirmationEditText,
                 binding.confirmationErrorTextView,
-                ErrorType.CONFIRMATION_ERROR
+                errorId.toInt()
             )
             false
         } else {
@@ -188,6 +194,25 @@ class RegistrationActivity : AppCompatActivity() {
         }
     }
 
+    private fun checkIsValid(id: String): Boolean {
+        return id != ErrorType.OK
+    }
+
+    private fun showValidatingError(editText: EditText, textView: TextView, errorId: Int) {
+        changeText(textView, errorId)
+        colorizeError(editText, textView)
+    }
+
+    private fun changeText(textView: TextView, errorId: Int) {
+        textView.text = resources.getString(errorId)
+    }
+
+    private fun colorizeError(editText: EditText, textView: TextView) {
+        editText.setHintTextColor(Color.RED)
+        editText.text.clear()
+        textView.visibility = View.VISIBLE
+    }
+
     private fun returnTextFieldsToNormalView(textView: TextView, editText: EditText) {
         textView.visibility = View.INVISIBLE
         editText.setHintTextColor(
@@ -196,25 +221,6 @@ class RegistrationActivity : AppCompatActivity() {
                 this.theme
             )
         )
-    }
-
-    private fun checkIsValid(id: String): Boolean {
-        return id != ErrorType.OK
-    }
-
-    private fun showValidatingError(editText: EditText, textView: TextView, id: Int) {
-        changeText(textView, id)
-        colorizeError(editText, textView)
-    }
-
-    private fun changeText(textView: TextView, id: Int) {
-        textView.text = resources.getString(id)
-    }
-
-    private fun colorizeError(editText: EditText, textView: TextView) {
-        editText.setHintTextColor(Color.RED)
-        editText.text.clear()
-        textView.visibility = View.VISIBLE
     }
 
 
