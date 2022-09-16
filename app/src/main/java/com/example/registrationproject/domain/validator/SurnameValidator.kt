@@ -5,12 +5,15 @@ import com.example.registrationproject.domain.model.ErrorType
 class SurnameValidator: Validator {
     override fun checkValidity(string: String): Int {
         val pattern = Regex("[A-ZА-Я]?([a-zа-я])*\\s*")
+        val digitsPattern = Regex("\\d+")
         return if (string.isEmpty()) {
             ErrorType.EMPTINESS_ERROR
         } else if (string.matches(pattern)) {
             isFirstLetterUpperCase(string)
-        } else {
+        } else if (string.contains(digitsPattern)){
             ErrorType.SECOND_SURNAME_ERROR
+        } else {
+            ErrorType.THIRD_SURNAME_ERROR
         }
     }
 

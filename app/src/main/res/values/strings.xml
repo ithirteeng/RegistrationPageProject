@@ -10,8 +10,10 @@
 
     <string name="first_name_error">Имя начинается с заглавной буквы!</string>
     <string name="second_name_error">Имя состоит только из букв!</string>
+    <string name="third_name_error">В имени только 1 главная буква!</string>
     <string name="first_surname_error">Фамилия начинается с заглавной буквы!</string>
     <string name="second_surname_error">Фамилия состоит только из букв!</string>
+    <string name="third_surname_error">В фамилии только 1 главная буква!</string>
     <string name="date_error">Дата должна быть в формате ДД.ММ.ГГГГ!</string>
     <string name="password_error">Пароль должен содержать только цифры и буквы!</string>
     <string name="confirmation_error">Пароли не совпадают!</string>

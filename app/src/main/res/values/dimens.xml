@@ -16,4 +16,6 @@
 
     <dimen name="small_button_margin">5dp</dimen>
     <dimen name="small_button_padding">5dp</dimen>
+
+    <dimen name="cft_logo_margin">50dp</dimen>
 </resources>

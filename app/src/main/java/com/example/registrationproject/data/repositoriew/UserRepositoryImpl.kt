@@ -11,6 +11,7 @@ class UserRepositoryImpl(context: Context): UserRepository  {
         const val DATE_KEY = "user_date"
         const val PASSWORD_KEY = "user_password"
         const val SHARED_PREFS_NAME = "shared preferences name"
+        const val NOTHING = "nothing"
     }
 
     private val sharedPreferences = context.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
@@ -26,10 +27,10 @@ class UserRepositoryImpl(context: Context): UserRepository  {
 
     override fun getUserData(): User {
         return User(
-            sharedPreferences.getString(NAME_KEY, "not_found")!!,
-            sharedPreferences.getString(SURNAME_KEY, "not_found")!!,
-            sharedPreferences.getString(DATE_KEY, "not_found")!!,
-            sharedPreferences.getString(PASSWORD_KEY, "not_found")!!
+            sharedPreferences.getString(NAME_KEY, NOTHING)!!,
+            sharedPreferences.getString(SURNAME_KEY, NOTHING)!!,
+            sharedPreferences.getString(DATE_KEY, NOTHING)!!,
+            sharedPreferences.getString(PASSWORD_KEY, NOTHING)!!
         )
     }
 

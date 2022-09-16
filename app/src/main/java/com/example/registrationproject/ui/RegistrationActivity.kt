@@ -25,6 +25,7 @@ import com.example.registrationproject.ui.model.TextFieldType
 import java.util.*
 
 class RegistrationActivity : AppCompatActivity() {
+
     private val binding by lazy {
         ActivityRegistrationBinding.inflate(layoutInflater)
     }
@@ -32,12 +33,15 @@ class RegistrationActivity : AppCompatActivity() {
     private val userRepositoryImpl by lazy {
         UserRepositoryImpl(applicationContext)
     }
+
     private val saveUserDataUseCase by lazy {
         SaveUserDataUseCase(userRepositoryImpl)
     }
+
     private val getUserDataUseCase by lazy {
         GetUserNameUseCase(userRepositoryImpl)
     }
+
     private val dataValidatorUseCase by lazy {
         DataValidatorUseCase()
     }
@@ -199,9 +203,6 @@ class RegistrationActivity : AppCompatActivity() {
             }
         } else {
             showValidatingError(textField.editText, textField.textView, textField.errorId)
-            if (textField.type == TextFieldType.PASSWORD) {
-                colorizeError(binding.confirmationEditText, binding.passwordErrorTextView)
-            }
         }
     }
 

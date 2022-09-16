@@ -18,15 +18,16 @@ class PasswordValidator : Validator {
     }
 
     fun checkEqualityPasswords(firstPassword: String, secondPassword: String): Int {
-        return if (secondPassword.isEmpty() && firstPassword.isEmpty()) {
-            ErrorType.EMPTINESS_ERROR
-        } else {
-            if (firstPassword == secondPassword && firstPassword.isNotEmpty()) {
-                ErrorType.OK
+        return if (firstPassword == secondPassword) {
+            if (firstPassword.isEmpty()) {
+                ErrorType.EMPTINESS_ERROR
             } else {
-                ErrorType.CONFIRMATION_ERROR
+                ErrorType.OK
             }
+        } else {
+            ErrorType.CONFIRMATION_ERROR
         }
+
     }
 
 }
