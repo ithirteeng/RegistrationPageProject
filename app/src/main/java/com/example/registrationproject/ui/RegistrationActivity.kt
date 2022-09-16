@@ -118,6 +118,7 @@ class RegistrationActivity : AppCompatActivity() {
         return true
     }
 
+
     private fun validateUserData() {
         validateName()
         validateSurname()
