@@ -1,4 +1,4 @@
-package com.example.registrationproject.model
+package com.example.registrationproject.domain.model
 
 import com.example.registrationproject.R
 

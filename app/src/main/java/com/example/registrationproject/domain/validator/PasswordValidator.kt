@@ -1,7 +1,6 @@
-package com.example.registrationproject.domain
+package com.example.registrationproject.domain.validator
 
-import com.example.registrationproject.model.ErrorType
-import com.example.registrationproject.model.Validator
+import com.example.registrationproject.domain.model.ErrorType
 
 class PasswordValidator : Validator {
     override fun checkValidity(string: String): String {

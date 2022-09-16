@@ -7,6 +7,10 @@ import com.example.registrationproject.R
 import com.example.registrationproject.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    companion object {
+        const val INTENT_KEY = "key"
+    }
+
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -15,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val name = intent.getStringExtra(RegistrationActivity.INTENT_KEY)
+        val name = intent.getStringExtra(INTENT_KEY)
         greetingButtonTouchListener(name!!)
     }
 
