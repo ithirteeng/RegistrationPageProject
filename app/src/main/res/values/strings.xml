@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RegistrationProject</string>
+    <string name="app_name">Registration</string>
     <string name="content_description">content</string>
     <string name="name_text">Your name</string>
     <string name="surname_text">Your surname</string>
