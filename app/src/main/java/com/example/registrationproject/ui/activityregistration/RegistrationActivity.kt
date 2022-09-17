@@ -1,4 +1,4 @@
-package com.example.registrationproject.ui
+package com.example.registrationproject.ui.activityregistration
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -10,16 +10,13 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.registrationproject.R
-import com.example.registrationproject.data.repositoriew.UserRepositoryImpl
 import com.example.registrationproject.databinding.ActivityRegistrationBinding
 import com.example.registrationproject.domain.model.User
-import com.example.registrationproject.domain.usecase.DataValidatorUseCase
-import com.example.registrationproject.domain.usecase.GetUserNameUseCase
-import com.example.registrationproject.domain.usecase.SaveUserDataUseCase
 import com.example.registrationproject.domain.validator.DateValidator
 import com.example.registrationproject.domain.validator.NameValidator
 import com.example.registrationproject.domain.validator.PasswordValidator
 import com.example.registrationproject.domain.validator.SurnameValidator
+import com.example.registrationproject.ui.activitymain.MainActivity
 import com.example.registrationproject.ui.model.TextField
 import com.example.registrationproject.ui.model.TextFieldType
 import java.util.*
@@ -30,20 +27,8 @@ class RegistrationActivity : AppCompatActivity() {
         ActivityRegistrationBinding.inflate(layoutInflater)
     }
 
-    private val userRepositoryImpl by lazy {
-        UserRepositoryImpl(applicationContext)
-    }
-
-    private val saveUserDataUseCase by lazy {
-        SaveUserDataUseCase(userRepositoryImpl)
-    }
-
-    private val getUserDataUseCase by lazy {
-        GetUserNameUseCase(userRepositoryImpl)
-    }
-
-    private val dataValidatorUseCase by lazy {
-        DataValidatorUseCase()
+    private val viewModel by lazy {
+        RegistrationActivityViewModel(this.application)
     }
 
     private var name: String? = null
@@ -67,9 +52,8 @@ class RegistrationActivity : AppCompatActivity() {
         binding.registrationButton.setOnClickListener {
             setupGetters()
             validateUserData()
-
             if (checkUserDataValidity()) {
-                saveUserDataUseCase.execute(User(name!!, surname!!, date!!, password!!))
+                viewModel.saveUserData(User(name!!, surname!!, date!!, password!!))
                 makeIntent()
             }
 
@@ -130,7 +114,7 @@ class RegistrationActivity : AppCompatActivity() {
     private fun validateName() {
         val nameTextField = TextField(
             type = TextFieldType.NAME,
-            errorId = dataValidatorUseCase.execute(NameValidator(), name!!),
+            errorId = viewModel.validateData(NameValidator(), name!!),
             editText = binding.nameEditText,
             textView = binding.nameErrorTextView
         )
@@ -141,7 +125,7 @@ class RegistrationActivity : AppCompatActivity() {
     private fun validateSurname() {
         val surnameTextField = TextField(
             type = TextFieldType.SURNAME,
-            errorId = dataValidatorUseCase.execute(SurnameValidator(), surname!!),
+            errorId = viewModel.validateData(SurnameValidator(), surname!!),
             editText = binding.surnameEditText,
             textView = binding.surnameErrorTextView
         )
@@ -152,7 +136,7 @@ class RegistrationActivity : AppCompatActivity() {
     private fun validateDate() {
         val dateTextField = TextField(
             type = TextFieldType.DATE,
-            errorId = dataValidatorUseCase.execute(DateValidator(), date!!),
+            errorId = viewModel.validateData(DateValidator(), date!!),
             editText = binding.dateEditText,
             textView = binding.dateErrorTextView
         )
@@ -163,7 +147,7 @@ class RegistrationActivity : AppCompatActivity() {
     private fun validatePassword() {
         val passwordTextField = TextField(
             type = TextFieldType.PASSWORD,
-            errorId = dataValidatorUseCase.execute(PasswordValidator(), password!!),
+            errorId = viewModel.validateData(PasswordValidator(), password!!),
             editText = binding.passwordEditText,
             textView = binding.passwordErrorTextView
         )
@@ -174,11 +158,7 @@ class RegistrationActivity : AppCompatActivity() {
     private fun validateConfirmation() {
         val confirmationTextField = TextField(
             type = TextFieldType.CONFIRMATION,
-            errorId = dataValidatorUseCase.execute(
-                PasswordValidator(),
-                password!!,
-                secondPassword!!
-            ),
+            errorId = viewModel.validateData(PasswordValidator(), password!!, secondPassword!!),
             editText = binding.confirmationEditText,
             textView = binding.confirmationErrorTextView
         )
@@ -229,7 +209,7 @@ class RegistrationActivity : AppCompatActivity() {
 
     private fun makeIntent() {
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(MainActivity.INTENT_KEY, getUserDataUseCase.execute())
+        intent.putExtra(MainActivity.INTENT_KEY, viewModel.getUserNameSurname())
         startActivity(intent)
 
     }

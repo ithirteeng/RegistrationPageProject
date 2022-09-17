@@ -1,4 +1,4 @@
-package com.example.registrationproject.ui
+package com.example.registrationproject.ui.activitymain
 
 import android.os.Bundle
 import android.widget.Toast

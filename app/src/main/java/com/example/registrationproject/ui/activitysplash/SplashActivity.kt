@@ -1,4 +1,4 @@
-package com.example.registrationproject.ui
+package com.example.registrationproject.ui.activitysplash
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -6,7 +6,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.registrationproject.data.repositoriew.UserRepositoryImpl
 import com.example.registrationproject.databinding.ActivitySplashBinding
-import com.example.registrationproject.domain.usecase.GetUserNameUseCase
+import com.example.registrationproject.ui.activitymain.MainActivity
+import com.example.registrationproject.ui.activityregistration.RegistrationActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -19,12 +20,8 @@ class SplashActivity : AppCompatActivity() {
         ActivitySplashBinding.inflate(layoutInflater)
     }
 
-    private val userRepositoryImpl by lazy {
-        UserRepositoryImpl(applicationContext)
-    }
-
-    private val getUserDataUseCase by lazy {
-        GetUserNameUseCase(userRepositoryImpl)
+    private val viewModel by lazy {
+        SplashActivityViewModel(this.application)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +35,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun checkRegistrationCondition(): Boolean {
-        return userRepositoryImpl.getUserData().name != UserRepositoryImpl.NOTHING
+        return viewModel.getUserData().name != UserRepositoryImpl.NOTHING
     }
 
     private fun makeIntent() {
@@ -47,7 +44,7 @@ class SplashActivity : AppCompatActivity() {
         } else {
             Intent(this, RegistrationActivity::class.java)
         }
-        intent.putExtra(MainActivity.INTENT_KEY, getUserDataUseCase.execute())
+        intent.putExtra(MainActivity.INTENT_KEY, viewModel.getUserNameSurname())
         startActivity(intent)
     }
 }

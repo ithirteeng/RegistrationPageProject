@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/cft_white_color"
     android:outlineAmbientShadowColor="@color/cft_black_color"
-    tools:context=".ui.RegistrationActivity">
+    tools:context=".ui.activityregistration.RegistrationActivity">
 
     <ImageView
         android:id="@+id/registration_platform"
