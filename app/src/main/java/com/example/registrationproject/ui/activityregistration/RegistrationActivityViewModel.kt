@@ -2,7 +2,7 @@ package com.example.registrationproject.ui.activityregistration
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import com.example.registrationproject.data.repositoriew.UserRepositoryImpl
+import com.example.registrationproject.data.repositories.UserRepositoryImpl
 import com.example.registrationproject.domain.model.User
 import com.example.registrationproject.domain.usecase.DataValidatorUseCase
 import com.example.registrationproject.domain.usecase.GetUserNameUseCase

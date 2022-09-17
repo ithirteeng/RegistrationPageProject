@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.registrationproject.data.repositoriew.UserRepositoryImpl
+import com.example.registrationproject.data.storage.UserDataStorage
 import com.example.registrationproject.databinding.ActivitySplashBinding
 import com.example.registrationproject.ui.activitymain.MainActivity
 import com.example.registrationproject.ui.activityregistration.RegistrationActivity
@@ -35,7 +35,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun checkRegistrationCondition(): Boolean {
-        return viewModel.getUserData().name != UserRepositoryImpl.NOTHING
+        return viewModel.getUserData().name != UserDataStorage.NOTHING
     }
 
     private fun makeIntent() {
@@ -46,5 +46,6 @@ class SplashActivity : AppCompatActivity() {
         }
         intent.putExtra(MainActivity.INTENT_KEY, viewModel.getUserNameSurname())
         startActivity(intent)
+        overridePendingTransition(0, 0)
     }
 }

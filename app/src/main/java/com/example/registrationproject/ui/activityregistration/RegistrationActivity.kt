@@ -211,7 +211,7 @@ class RegistrationActivity : AppCompatActivity() {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra(MainActivity.INTENT_KEY, viewModel.getUserNameSurname())
         startActivity(intent)
-
+        overridePendingTransition(0, 0)
     }
 
 
