@@ -3,7 +3,7 @@
 *SHIFT Lab project*
 
 Simple application with registration page.<br/>
-## Tech-stack
+## Technology stack:
 - MVVM
 - Clean Architecture
 - Shared Preferences
